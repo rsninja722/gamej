@@ -1,14 +1,14 @@
 import game.*;
-import game.drawing.*;
-import game.physics.*;
 
 public class Template extends GameJava {
 
     public Template() {
         super(640, 480, 60, 60);
+
+        LoopManager.startLoops(this);
 	}
 	
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
         new Template();   
     }
 	

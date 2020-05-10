@@ -2,8 +2,8 @@ package game.physics;
 
 /** circle object used for drawing and physics */
 public class Circle {
-	public int x;
-	public int y;
+	public double x;
+	public double y;
 	public int r;
     
     /**
@@ -12,7 +12,7 @@ public class Circle {
      * @param y center y
      * @param r radius
      */
-	public Circle(int x,int y,int r) {
+	public Circle(double x,double y,int r) {
 		this.x = x;
 		this.y = y;
 		this.r = r;

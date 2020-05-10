@@ -36,6 +36,38 @@ public class Utils {
         double h = Math.atan2(opposite, adjacent);
         return h;
     }
+    
+    /**
+     * changes an angle to another angle a certain amount
+     * @param currentAngle
+     * @param targetAngle
+     * @param turnSpeed
+     * @return the new currentAngle
+     */
+    public static double turnTo(double currentAngle, double targetAngle, double turnSpeed) {
+    	double pi = Math.PI;
+    	double tau = pi*2;
+    	if (targetAngle < 0) { targetAngle = tau + targetAngle; }
+        if ((currentAngle % tau) > targetAngle) {
+            if ((currentAngle % tau) - targetAngle > pi) {
+            	currentAngle += turnSpeed;
+            } else {
+            	currentAngle -= turnSpeed;
+            }
+        } else {
+            if (targetAngle - (currentAngle % tau) > pi) {
+            	currentAngle -= turnSpeed;
+            } else {
+            	currentAngle += turnSpeed;
+            }
+        }
+        if (Math.abs(currentAngle - targetAngle) < turnSpeed * 1.1) {
+        	currentAngle = targetAngle;
+        }
+        if (currentAngle > tau) { currentAngle = currentAngle - tau; }
+        if (currentAngle < 0) { currentAngle = tau + currentAngle; }
+        return currentAngle;
+    }
 
     /**
      * @param min minimum value inclusive
@@ -107,7 +139,7 @@ public class Utils {
      * @param value value to show
      */
     public static void putInDebugMenu(String lable, double value) {
-        debugString.append("[" + lable + "] " + value + "\n");
+        debugString.append("[" + lable + "] " + Math.round(value*1000.0)/1000.0 + "\n");
     }
 
     /**

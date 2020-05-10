@@ -11,7 +11,7 @@ public class Physics {
      * @param y2
      * @return distance
      */
-	public static double dist(final double x1, final double y1, final double x2, final double y2) {
+	public static double dist(double x1, double y1, double x2, double y2) {
 		final double one = (x2 - x1);
 		final double two = (y2 - y1);
 		return Math.sqrt((one * one) + (two * two));
@@ -22,7 +22,7 @@ public class Physics {
      * @param point2 {@link game.physics.Point#Point physics point}
      * @return
      */
-    public static double dist(final Point point1, final Point point2) {
+    public static double dist(Point point1, Point point2) {
 		final double one = (point2.x - point1.x);
 		final double two = (point2.y - point1.y);
 		return Math.sqrt((one * one) + (two * two));
@@ -34,7 +34,7 @@ public class Physics {
      * @param circle2 {@link game.physics.Circle#Circle physics cirlce}
      * @return if the circles are colliding
      */
-	public static boolean circlecircle(final Circle circle1, final Circle circle2) {
+	public static boolean circlecircle(Circle circle1, Circle circle2) {
 		if (dist(circle1.x, circle1.y, circle2.x, circle2.y) < (circle1.r + circle2.r)) {
 			return true;
 		} else {
@@ -48,7 +48,7 @@ public class Physics {
      * @param rect2 {@link game.physics.Rect#Rect physics rect}
      * @return if the rectangles are colliding
      */
-	public static boolean rectrect(final Rect rect1, final Rect rect2) {
+	public static boolean rectrect(Rect rect1, Rect rect2) {
 		if (rect1.x + rect1.halfW >= rect2.x - rect2.halfW && rect1.x - rect1.halfW <= rect2.x + rect2.halfW
             && rect1.y + rect1.halfH >= rect2.y - rect2.halfH && rect1.y - rect1.halfH <= rect2.y + rect2.halfH) {
 			return true;
@@ -63,7 +63,7 @@ public class Physics {
      * @param point {@link game.physics.Point#Point physics point}
      * @return if the rectangle and point are colliding
      */
-	public static boolean rectpoint(final Rect rect,final Point point) {
+	public static boolean rectpoint(Rect rect, Point point) {
 	    if(rect.x + rect.w/2 >= point.x &&
 	       rect.x - rect.w/2 <= point.x &&
 	       rect.y + rect.h/2 >= point.y &&
@@ -80,7 +80,7 @@ public class Physics {
      * @param point {@link game.physics.Point#Point physics point}
      * @return if the circle and point are colliding
      */
-    public static boolean circlepoint(final Circle circle, final Point point) {
+    public static boolean circlepoint(Circle circle, Point point) {
 		if (dist(circle.x, circle.y, point.x, point.y) < circle.r) {
 			return true;
 		} else {
@@ -95,7 +95,7 @@ public class Physics {
      * @param rect {@link game.physics.Rect#Rect physics rect}
      * @return if the circle and rectangle are colliding
      */
-	public static boolean circlerect(final Circle circle,final Rect rect) { //credit: https://yal.cc/rectangle-circle-intersection-test/
+	public static boolean circlerect(Circle circle, Rect rect) { //credit: https://yal.cc/rectangle-circle-intersection-test/
 	    final double rectHalfWidth  = rect.w/2;
 	    final double rectHalfHeight = rect.h/2;
 	    final double deltaX = circle.x - Math.max(rect.x - rectHalfWidth, Math.min(circle.x, rect.x + rectHalfWidth));

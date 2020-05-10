@@ -1,8 +1,10 @@
 package game.drawing;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -10,6 +12,7 @@ import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.FontFormatException;
@@ -35,6 +38,8 @@ public class Draw extends JPanel {
     private static Font drawFont; // font used for all text drawing
 
     public static boolean fullScreen = false; // if in fullscreen mode
+    
+    public static boolean allowFullScreen = true; 
 
     public static int windowedWidth; // width to return to when exiting full screen
     public static int windowedHeight; // width to return to when exiting full screen
@@ -56,16 +61,22 @@ public class Draw extends JPanel {
     public static int drawingMode = 0; // 0 = translations only, 1 = adding scaling, 2 = adding rotations
 
     // limit for when to stop drawing
-    private static int drawLimitLeft;
-    private static int drawLimitRight;
-    private static int drawLimitTop;
-    private static int drawLimitBottom;
+    public static int drawLimitLeft;
+    public static int drawLimitRight;
+    public static int drawLimitTop;
+    public static int drawLimitBottom;
 
     public static boolean absoluteDraw = false; // whether camera should be ignored
+    
+    public static float alphaBetweenFrames = 1.0f;
+    public static float lastAlpha = alphaBetweenFrames;
+    
+    public static boolean antialiasing = false;
 
     public static final GraphicsEnvironment graphicsEnviro = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    public static final GraphicsConfiguration graphicsConfig = graphicsEnviro.getDefaultScreenDevice()
-            .getDefaultConfiguration();
+    public static final GraphicsConfiguration graphicsConfig = graphicsEnviro.getDefaultScreenDevice().getDefaultConfiguration();
+    
+    public static int drawCalls = 0;
 
     // __________________________________________ Drawing methods __________________________________________
 
@@ -78,7 +89,7 @@ public class Draw extends JPanel {
     }
 
     /**
-     * draws a rectrangle centered on x,y
+     * draws a rectangle centered on x,y
      * @param x x position
      * @param y y position
      * @param w width
@@ -87,13 +98,32 @@ public class Draw extends JPanel {
     public static void rect(int x, int y, int w, int h) {
         canvas.fillRect(x - (w / 2) + difx, y - (h / 2) + dify, w, h);
     }
+    
+    /**
+     * draws a rectangle outline centered on x,y
+     * @param x x position
+     * @param y y position
+     * @param w width
+     * @param h height
+     */
+    public static void rectOutline(int x, int y, int w, int h) {
+        canvas.drawRect(x - (w / 2) + difx, y - (h / 2) + dify, w, h);
+    }
 
     /**
-     * draws a rectrangle centered on x,y
+     * draws a rectangle centered on x,y
      * @param rectangle {@link game.physics.Rect#Rect rectangle}
      */
     public static void rect(Rect rectangle) {
         canvas.fillRect((int) rectangle.x - (rectangle.w / 2) + difx, (int) rectangle.y - (rectangle.h / 2) + dify, rectangle.w, rectangle.h);
+    }
+    
+    /**
+     * draws a rectangle outline centered on x,y
+     * @param rectangle {@link game.physics.Rect#Rect rectangle}
+     */
+    public static void rectOutline(Rect rectangle) {
+        canvas.drawRect((int) rectangle.x - (rectangle.w / 2) + difx, (int) rectangle.y - (rectangle.h / 2) + dify, rectangle.w, rectangle.h);
     }
 
     /**
@@ -105,6 +135,16 @@ public class Draw extends JPanel {
     public static void circle(int x, int y, int r) {
         canvas.fillOval(x - r + difx, y - r + dify, r * 2, r * 2);
     }
+    
+    /**
+     * draws circle outline centered on x,y
+     * @param x x position
+     * @param y y position
+     * @param r radius
+     */
+    public static void circleOutline(int x, int y, int r) {
+        canvas.drawOval(x - r + difx, y - r + dify, r * 2, r * 2);
+    }
 
     /**
      * draws circle centered on x,y
@@ -112,6 +152,26 @@ public class Draw extends JPanel {
      */
     public static void circle(Circle circle) {
         canvas.fillOval((int) circle.x - circle.r + difx, (int) circle.y - circle.r + dify, circle.r * 2, circle.r * 2);
+    }
+    
+    /**
+     * draws circle outline centered on x,y
+     * @param circle {@link game.physics.Circle#Circle circle}
+     */
+    public static void circleOutline(Circle circle) {
+        canvas.drawOval((int) circle.x - circle.r + difx, (int) circle.y - circle.r + dify, circle.r * 2, circle.r * 2);
+    }
+
+    /**
+     * draws and arc from startAngle to arcAngle
+     * @param x
+     * @param y
+     * @param size
+     * @param startAngle in degrees
+     * @param arcAngle in degrees
+     */
+    public static void arc(int x, int y, int size, int startAngle, int arcAngle) {
+    	canvas.drawArc(x + difx - size/2, y + dify - size/2, size, size, startAngle, arcAngle);
     }
 
     /**
@@ -139,7 +199,7 @@ public class Draw extends JPanel {
      * @param end   {@link game.physics.Point#Point point}
      */
     public static void line(Point start, Point end) {
-        canvas.drawLine(start.x + difx, start.y + dify, end.x + difx, end.y + dify);
+        canvas.drawLine((int)start.x + difx, (int)start.y + dify, (int)end.x + difx, (int)end.y + dify);
     }
 
     /**
@@ -177,16 +237,17 @@ public class Draw extends JPanel {
      * @param angle radians
      * @param scale pixels per pixel
      */
-    public static void imageIgnoreCutoff(Sprite spr, int x, int y, double angle, double scale) {
+    public static void imageIgnoreCutoff(String imageName, int x, int y, double angle, double scale) {
         AffineTransform t = canvas.getTransform();
 
         canvas.translate(Math.round(x + difx), Math.round(y + dify));
         canvas.scale(scale, scale);
         canvas.rotate(angle);
 
+        Sprite spr = Sprites.get(imageName);
         canvas.drawImage(spr.img, Math.round(-spr.width / 2), Math.round(-spr.height / 2), null);
 
-        canvas.setTransform(t);
+        canvas.setTransform(t);drawCalls++;
     }
 
     /**
@@ -195,8 +256,9 @@ public class Draw extends JPanel {
      * @param x
      * @param y
      */
-    public static void imageIgnoreCutoff(Sprite spr, int x, int y) {
-        canvas.drawImage(spr.img, Math.round(x + difx - (spr.width / 2)), Math.round(y + dify - (spr.height / 2)), null);
+    public static void imageIgnoreCutoff(String imageName, int x, int y) {
+    	Sprite spr = Sprites.get(imageName);
+        canvas.drawImage(spr.img, Math.round(x + difx - (spr.width / 2)), Math.round(y + dify - (spr.height / 2)), null);drawCalls++;
     }
 
     /**
@@ -207,7 +269,9 @@ public class Draw extends JPanel {
      * @param angle radians
      * @param scale pixels per pixel
      */
-    public static void image(Sprite spr, int x, int y, double angle, double scale) {
+    public static void image(String imageName, int x, int y, double angle, double scale) {
+    	Sprite spr = Sprites.get(imageName);
+    	
         int half = (int) (spr.drawLimit * scale);
         if ((x + half > drawLimitLeft && x - half < drawLimitRight && y + half > drawLimitTop && y - half < drawLimitBottom) || absoluteDraw) {
             AffineTransform t = canvas.getTransform();
@@ -219,7 +283,7 @@ public class Draw extends JPanel {
             canvas.drawImage(spr.img, Math.round(-spr.width / 2), Math.round(-spr.height / 2), null);
 
             canvas.setTransform(t);
-        }
+        drawCalls++;}
     }
 
     /**
@@ -228,11 +292,13 @@ public class Draw extends JPanel {
      * @param x
      * @param y
      */
-    public static void image(Sprite spr, int x, int y) {
+    public static void image(String imageName, int x, int y) {
+    	Sprite spr = Sprites.get(imageName);
+    	
         int half = spr.drawLimit;
         if ((x + half > drawLimitLeft && x - half < drawLimitRight && y + half > drawLimitTop && y - half < drawLimitBottom) || absoluteDraw) {
             canvas.drawImage(spr.img, Math.round(x + difx - (spr.width / 2)), Math.round(y + dify - (spr.height / 2)), null);
-        }
+        drawCalls++;}
     }
 
     // __________________________________________ methods that should only be used by gamej __________________________________________
@@ -243,7 +309,7 @@ public class Draw extends JPanel {
 
         // Andrew Tyler www.AndrewTyler.net and font@andrewtyler.net
         try {
-            graphicsEnviro.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameJava.baseDirectory + "\\pixelmix.ttf")));
+            graphicsEnviro.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameJava.baseDirectory + GameJava.directoryChar + "pixelmix.ttf")));
             drawFont = new Font("pixelmix", Font.PLAIN, 8);
         } catch (IOException | FontFormatException e) {
             System.err.println("[Draw] cannot find pixelmix.ttf in assets, using default font instead");
@@ -275,6 +341,12 @@ public class Draw extends JPanel {
 
         windowedWidth = GameJava.gw;
         windowedHeight = GameJava.gh;
+        
+        int w = frame.getWidth() - frame.getInsets().right - frame.getInsets().left;
+        int h = frame.getHeight() - frame.getInsets().top - frame.getInsets().bottom;
+        panel.setSize(w, h);
+        GameJava.gw = panel.getWidth();
+        GameJava.gh = panel.getHeight();
     }
 
     public static void toggleFullSreen() {
@@ -311,7 +383,7 @@ public class Draw extends JPanel {
     }
 
     // sets up buffers
-    public static void preRender() {
+    public static void preRender() {drawCalls=0;absoluteDraw=false;
         // change what buffer is used depending in the camera
         if (Camera.zoom < 1.0f) {
             Camera.zoom = 1.0f;
@@ -325,8 +397,8 @@ public class Draw extends JPanel {
         }
 
         // set size of panel to fit frame
-        int w = frame.getWidth();
-        int h = frame.getHeight();
+        int w = frame.getWidth() - frame.getInsets().right - frame.getInsets().left;
+        int h = frame.getHeight() - frame.getInsets().top - frame.getInsets().bottom;
         panel.setSize(w, h);
         GameJava.gw = panel.getWidth();
         GameJava.gh = panel.getHeight();
@@ -367,10 +439,12 @@ public class Draw extends JPanel {
         }
 
         // calculate limits, if image is outside these bounds, it will not draw
-        drawLimitLeft = -Camera.x - (drawingMode == 2 ? sizeDif : 0);
-        drawLimitRight = -Camera.x + maxCvsSize + (drawingMode == 2 ? sizeDif : 0);
-        drawLimitTop = -Camera.y - (drawingMode == 2 ? sizeDif : 0);
-        drawLimitBottom = -Camera.y + maxCvsSize + (drawingMode == 2 ? sizeDif : 0);
+        int limitModifyer = 0;
+        if(drawingMode==2) {limitModifyer=Math.max(buffer2.getHeight(), buffer2.getWidth())-maxCvsSize;}
+        drawLimitLeft = -Camera.x - (drawingMode == 2 ? sizeDif : 0) - limitModifyer;
+        drawLimitRight = -Camera.x + maxCvsSize + (drawingMode == 2 ? sizeDif : 0) + limitModifyer;
+        drawLimitTop = -Camera.y - (drawingMode == 2 ? sizeDif : 0) - limitModifyer;
+        drawLimitBottom = -Camera.y + maxCvsSize + (drawingMode == 2 ? sizeDif : 0) + limitModifyer;
 
         // set the drawing target
         switch (drawingMode) {
@@ -384,6 +458,13 @@ public class Draw extends JPanel {
                 canvas = buffer2Graphics;
                 break;
         }
+        
+        // turn on anti alliasing
+ 		if(antialiasing) {
+ 			Draw.canvas.setRenderingHint(
+                 RenderingHints.KEY_ANTIALIASING, 
+                 RenderingHints.VALUE_ANTIALIAS_ON);
+ 		}
 
         // set font
         canvas.setFont(drawFont);
@@ -422,6 +503,12 @@ public class Draw extends JPanel {
     // draws the buffer to the jpanel
     public static void renderToScreen() {
         Graphics2D g2 = (Graphics2D) panel.getGraphics();
+        if(lastAlpha != 1.0f || alphaBetweenFrames != 1.0f) {
+	    	int rule = AlphaComposite.SRC_OVER;
+	        Composite comp = AlphaComposite.getInstance(rule , (float) alphaBetweenFrames );
+	        g2.setComposite(comp );
+	        lastAlpha = alphaBetweenFrames;
+        }
         g2.drawImage(buffer, 0, 0, null);
         g2.dispose();
     }

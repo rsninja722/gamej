@@ -2,8 +2,8 @@ package game.physics;
 
 /** rectangle object used for physics and drawing */
 public class Rect {
-	public int x;
-	public int y;
+	public double x;
+	public double y;
 	public int w;
 	public int h;
     
@@ -17,7 +17,7 @@ public class Rect {
      * @param w width
      * @param h height
      */
-	public Rect(int x, int y, int w, int h) {
+	public Rect(double x, double y, int w, int h) {
 		this.x = x;
 		this.y = y;
 		this.w = w;

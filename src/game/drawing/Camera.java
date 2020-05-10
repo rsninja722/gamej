@@ -29,8 +29,8 @@ public class Camera {
      * @param position {@link game.physics.Point#Point Point}
      */
     public static void centerOn(Point position) {
-        x = -position.x + GameJava.gw / 2;
-        y = -position.y + GameJava.gh / 2;
+        x = -(int)position.x + GameJava.gw / 2;
+        y = -(int)position.y + GameJava.gh / 2;
     }
 
     /**
