@@ -12,18 +12,18 @@ public class Template extends GameJava {
         new Template();   
     }
 	
+    @Override
+    public void update() {
+        // called at the set frame rate
+    }	
+    
 	@Override
 	public void draw() {
         // called at the set update rate
 	}
-
-	@Override
-	public void update() {
-        // called at the set frame rate
-    }	
     
     @Override
     public void absoluteDraw() {
-        // called imediately after draw, all drawing is the same but without the camera affecting anything
+        // called immediately after draw, all drawing is the same but without the camera affecting anything
     }
 }
