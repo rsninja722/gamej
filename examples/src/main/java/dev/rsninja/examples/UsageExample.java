@@ -2,14 +2,14 @@ package dev.rsninja.examples;
 
 import java.awt.Color;
 
-import game.*;
-import game.audio.Sounds;
-import game.drawing.Camera;
-import game.drawing.Draw;
-import game.physics.Circle;
-import game.physics.Physics;
-import game.physics.Point;
-import game.physics.Rect;
+import dev.rsninja.gamej.*;
+import dev.rsninja.gamej.audio.Sounds;
+import dev.rsninja.gamej.drawing.Camera;
+import dev.rsninja.gamej.drawing.Draw;
+import dev.rsninja.gamej.physics.Circle;
+import dev.rsninja.gamej.physics.Physics;
+import dev.rsninja.gamej.physics.Point;
+import dev.rsninja.gamej.physics.Rect;
 
 public class UsageExample extends GameJava {
 
