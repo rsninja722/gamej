@@ -8,3 +8,6 @@
  */
 
 rootProject.name = 'gamej'
+
+include "core"
+include "examples"
