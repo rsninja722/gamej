@@ -59,7 +59,7 @@ public class GameJava {
     }
 
     // calculates frame rate nanosecond speeds and initializes drawing
-    public static void init(int gameWidth, int gameHeight, int fps, int ups) {
+    public void init(int gameWidth, int gameHeight, int fps, int ups) {
         System.out.println("[GameJava] initizlizing");
 
         // If security stuff prevents the file separator from being accessed
