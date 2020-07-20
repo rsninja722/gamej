@@ -17,7 +17,7 @@ public class UsageExample extends GameJava {
     Point ballVelocity = new Point(Utils.rand(-2, 2),Utils.rand(-2, 2));
 
     public UsageExample() {
-        super(800, 600, 144, 144);
+        super(800, 600, 45, 45);
 
         frameTitle = "examples of stuff that can be done";
 
