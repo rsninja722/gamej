@@ -57,7 +57,7 @@ public class Sprites {
     /**
      * get a sprite from the hashmap of sprites
      * @param spriteName name of the image without .png
-     * @return {@link game.drawing.Sprite#Sprite(String) Sprite}
+     * @return {@link dev.rsninja.gamej.drawing.Sprite#Sprite(String) Sprite}
      */
     public static Sprite get(String spriteName) {
         Sprite s = spriteList.get(spriteName);

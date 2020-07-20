@@ -1,3 +1,14 @@
 plugins{
     id "java-library"
 }
+
+javadoc {
+    source = sourceSets.main.allJava
+
+    delete "docs/javadoc"
+
+    doLast{
+        println "Copying javadoc to docs folder"
+        file("$rootProject.buildDir/docs/javadoc").renameTo(new File("docs/javadoc"))
+    }
+}

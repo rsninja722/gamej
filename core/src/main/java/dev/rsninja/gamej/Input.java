@@ -144,14 +144,14 @@ public class Input {
     }
     
     /** 
-     * @param id of a key
+     * @param keyID of a key
      * @return only true the first cycle the button is held down 
      */
     public static boolean keyClick(int keyID) {
         return keyInputs[keyID] == 2;
     }
     /** 
-     * @param keyCode {@link game.KeyCodes KeyCodes.keyCodeName}
+     * @param keyCode {@link dev.rsninja.gamej.KeyCodes KeyCodes.keyCodeName}
      * @return only true the first cycle the key is held down 
      */
     public static boolean keyClick(KeyCodes keyCode) {
@@ -159,14 +159,14 @@ public class Input {
     }
     
     /** 
-     * @param id of a key 
+     * @param keyID of a key 
      * @return if key is held 
      */
     public static boolean keyDown(int keyID) {
         return keyInputs[keyID] > 0;
     }
     /** 
-     * @param keyCode {@link game.KeyCodes KeyCodes.keyCodeName}
+     * @param keyCode {@link dev.rsninja.gamej.KeyCodes KeyCodes.keyCodeName}
      * @return if key is held 
      */
     public static boolean keyDown(KeyCodes keyCode) {

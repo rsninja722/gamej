@@ -112,7 +112,7 @@ public class Draw extends JPanel {
 
     /**
      * draws a rectangle centered on x,y
-     * @param rectangle {@link game.physics.Rect#Rect rectangle}
+     * @param rectangle {@link dev.rsninja.gamej.physics.Rect#Rect rectangle}
      */
     public static void rect(Rect rectangle) {
         canvas.fillRect((int) rectangle.x - (rectangle.w / 2) + difx, (int) rectangle.y - (rectangle.h / 2) + dify, rectangle.w, rectangle.h);
@@ -120,7 +120,7 @@ public class Draw extends JPanel {
     
     /**
      * draws a rectangle outline centered on x,y
-     * @param rectangle {@link game.physics.Rect#Rect rectangle}
+     * @param rectangle {@link dev.rsninja.gamej.physics.Rect#Rect rectangle}
      */
     public static void rectOutline(Rect rectangle) {
         canvas.drawRect((int) rectangle.x - (rectangle.w / 2) + difx, (int) rectangle.y - (rectangle.h / 2) + dify, rectangle.w, rectangle.h);
@@ -148,7 +148,7 @@ public class Draw extends JPanel {
 
     /**
      * draws circle centered on x,y
-     * @param circle {@link game.physics.Circle#Circle circle}
+     * @param circle {@link dev.rsninja.gamej.physics.Circle#Circle circle}
      */
     public static void circle(Circle circle) {
         canvas.fillOval((int) circle.x - circle.r + difx, (int) circle.y - circle.r + dify, circle.r * 2, circle.r * 2);
@@ -156,7 +156,7 @@ public class Draw extends JPanel {
     
     /**
      * draws circle outline centered on x,y
-     * @param circle {@link game.physics.Circle#Circle circle}
+     * @param circle {@link dev.rsninja.gamej.physics.Circle#Circle circle}
      */
     public static void circleOutline(Circle circle) {
         canvas.drawOval((int) circle.x - circle.r + difx, (int) circle.y - circle.r + dify, circle.r * 2, circle.r * 2);
@@ -195,8 +195,8 @@ public class Draw extends JPanel {
 
     /**
      * draws a line from start to end
-     * @param start {@link game.physics.Point#Point point}
-     * @param end   {@link game.physics.Point#Point point}
+     * @param start {@link dev.rsninja.gamej.physics.Point#Point point}
+     * @param end   {@link dev.rsninja.gamej.physics.Point#Point point}
      */
     public static void line(Point start, Point end) {
         canvas.drawLine((int)start.x + difx, (int)start.y + dify, (int)end.x + difx, (int)end.y + dify);
@@ -231,7 +231,7 @@ public class Draw extends JPanel {
     /**
      * draws an image centered on x,y with an angle, scaled on the x and y axis.
      * will not prevent drawing if sprite is off screen.
-     * @param spr   {@link game.drawing.Sprites#get(String) Sprites.get(sprite name)}
+     * @param imageName   {@link dev.rsninja.gamej.drawing.Sprites#get(String) Sprites.get(sprite name)}
      * @param x
      * @param y
      * @param angle radians
@@ -252,7 +252,7 @@ public class Draw extends JPanel {
 
     /**
      * draws an image centered on x,y. will not prevent drawing if off screen.
-     * @param spr {@link game.drawing.Sprites#get(String) Sprites.get(sprite name)}
+     * @param imageName {@link dev.rsninja.gamej.drawing.Sprites#get(String) Sprites.get(sprite name)}
      * @param x
      * @param y
      */
@@ -263,7 +263,7 @@ public class Draw extends JPanel {
 
     /**
      * draws an image centered on x,y with an angle, scaled on the x and y axis.
-     * @param spr   {@link game.drawing.Sprites#get(String) Sprites.get(spritename)}
+     * @param imageName   {@link dev.rsninja.gamej.drawing.Sprites#get(String) Sprites.get(spritename)}
      * @param x
      * @param y
      * @param angle radians
@@ -288,7 +288,7 @@ public class Draw extends JPanel {
 
     /**
      * draws an image centered on x,y
-     * @param spr {@link game.drawing.Sprites#get(String) Sprites.get(sprite name)}
+     * @param imageName {@link dev.rsninja.gamej.drawing.Sprites#get(String) Sprites.get(sprite name)}
      * @param x
      * @param y
      */

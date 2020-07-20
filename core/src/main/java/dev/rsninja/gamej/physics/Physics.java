@@ -18,8 +18,8 @@ public class Physics {
     }
     /**
      * calculates the distance between point1 and point2
-     * @param point1 {@link game.physics.Point#Point physics point}
-     * @param point2 {@link game.physics.Point#Point physics point}
+     * @param point1 {@link dev.rsninja.gamej.physics.Point#Point physics point}
+     * @param point2 {@link dev.rsninja.gamej.physics.Point#Point physics point}
      * @return
      */
     public static double dist(Point point1, Point point2) {
@@ -30,8 +30,8 @@ public class Physics {
 
 	/**
      * collision between two circles
-     * @param circle1 {@link game.physics.Circle#Circle physics cirlce}
-     * @param circle2 {@link game.physics.Circle#Circle physics cirlce}
+     * @param circle1 {@link dev.rsninja.gamej.physics.Circle#Circle physics cirlce}
+     * @param circle2 {@link dev.rsninja.gamej.physics.Circle#Circle physics cirlce}
      * @return if the circles are colliding
      */
 	public static boolean circlecircle(Circle circle1, Circle circle2) {
@@ -44,8 +44,8 @@ public class Physics {
 
 	/**
      * collision between two rectangles
-     * @param rect1 {@link game.physics.Rect#Rect physics rect}
-     * @param rect2 {@link game.physics.Rect#Rect physics rect}
+     * @param rect1 {@link dev.rsninja.gamej.physics.Rect#Rect physics rect}
+     * @param rect2 {@link dev.rsninja.gamej.physics.Rect#Rect physics rect}
      * @return if the rectangles are colliding
      */
 	public static boolean rectrect(Rect rect1, Rect rect2) {
@@ -59,8 +59,8 @@ public class Physics {
 	
 	/**
      * collision between a rectangle and a point
-     * @param rect {@link game.physics.Rect#Rect physics rect}
-     * @param point {@link game.physics.Point#Point physics point}
+     * @param rect {@link dev.rsninja.gamej.physics.Rect#Rect physics rect}
+     * @param point {@link dev.rsninja.gamej.physics.Point#Point physics point}
      * @return if the rectangle and point are colliding
      */
 	public static boolean rectpoint(Rect rect, Point point) {
@@ -76,8 +76,8 @@ public class Physics {
     
     /**
      * collision between a circle and a point
-     * @param circle {@link game.physics.Circle#Circle physics cirlce}
-     * @param point {@link game.physics.Point#Point physics point}
+     * @param circle {@link dev.rsninja.gamej.physics.Circle#Circle physics cirlce}
+     * @param point {@link dev.rsninja.gamej.physics.Point#Point physics point}
      * @return if the circle and point are colliding
      */
     public static boolean circlepoint(Circle circle, Point point) {
@@ -91,8 +91,8 @@ public class Physics {
 	
 	/**
      * collision between a circle and a rectangle
-     * @param circle {@link game.physics.Circle#Circle physics cirlce}
-     * @param rect {@link game.physics.Rect#Rect physics rect}
+     * @param circle {@link dev.rsninja.gamej.physics.Circle#Circle physics cirlce}
+     * @param rect {@link dev.rsninja.gamej.physics.Rect#Rect physics rect}
      * @return if the circle and rectangle are colliding
      */
 	public static boolean circlerect(Circle circle, Rect rect) { //credit: https://yal.cc/rectangle-circle-intersection-test/

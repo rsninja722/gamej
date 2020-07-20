@@ -26,7 +26,7 @@ public class Camera {
 
     /**
      * centers the camera on the point position
-     * @param position {@link game.physics.Point#Point Point}
+     * @param position {@link dev.rsninja.gamej.physics.Point#Point Point}
      */
     public static void centerOn(Point position) {
         x = -(int)position.x + GameJava.gw / 2;

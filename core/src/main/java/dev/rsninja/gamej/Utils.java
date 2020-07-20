@@ -19,8 +19,8 @@ public class Utils {
     /**
      * the angle something at point needs to be at to be facing target point
      * 
-     * @param point       {@link game.physics.Point#Point physics point}
-     * @param targetPoint {@link game.physics.Point#Point physics point}
+     * @param point       {@link dev.rsninja.gamej.physics.Point#Point physics point}
+     * @param targetPoint {@link dev.rsninja.gamej.physics.Point#Point physics point}
      * @return angle in radians
      */
     public static double pointTo(Point point, Point targetPoint) {
