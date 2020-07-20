@@ -1,4 +1,4 @@
-package game.audio;
+package dev.rsninja.gamej.audio;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import game.Utils;
+import dev.rsninja.gamej.Utils;
 
 public class Sound {
 

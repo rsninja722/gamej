@@ -1,4 +1,4 @@
-package game;
+package dev.rsninja.gamej;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package game.drawing;
+package dev.rsninja.gamej.drawing;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -20,11 +20,11 @@ import java.awt.FontFormatException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import game.GameJava;
-import game.Input;
-import game.physics.Circle;
-import game.physics.Point;
-import game.physics.Rect;
+import dev.rsninja.gamej.GameJava;
+import dev.rsninja.gamej.Input;
+import dev.rsninja.gamej.physics.Circle;
+import dev.rsninja.gamej.physics.Point;
+import dev.rsninja.gamej.physics.Rect;
 
 /** contains methods for drawing to the screen */
 public class Draw extends JPanel {

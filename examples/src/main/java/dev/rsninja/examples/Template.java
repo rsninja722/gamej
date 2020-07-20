@@ -1,4 +1,7 @@
-import game.*;
+package dev.rsninja.examples;
+
+import dev.rsninja.gamej.GameJava;
+import dev.rsninja.gamej.LoopManager;
 
 public class Template extends GameJava {
 

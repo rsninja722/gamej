@@ -1,3 +1,5 @@
+package dev.rsninja.examples;
+
 import java.awt.Color;
 
 import game.*;

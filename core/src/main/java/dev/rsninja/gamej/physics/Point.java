@@ -1,4 +1,4 @@
-package game.physics;
+package dev.rsninja.gamej.physics;
 
 /** circle object used for physics */
 public class Point {

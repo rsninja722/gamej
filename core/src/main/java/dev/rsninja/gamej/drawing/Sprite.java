@@ -1,4 +1,4 @@
-package game.drawing;
+package dev.rsninja.gamej.drawing;
 
 import java.awt.Image;
 import java.io.File;

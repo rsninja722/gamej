@@ -1,11 +1,11 @@
-package game.drawing;
+package dev.rsninja.gamej.drawing;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
-import game.GameJava;
+import dev.rsninja.gamej.GameJava;
 
 /** loads and stores all png files drom the assets/images folder in a hashmap */
 public class Sprites {

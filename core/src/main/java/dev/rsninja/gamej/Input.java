@@ -1,4 +1,4 @@
-package game;
+package dev.rsninja.gamej;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -6,10 +6,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import game.drawing.Camera;
-import game.drawing.Draw;
-import game.physics.Physics;
-import game.physics.Point;
+import dev.rsninja.gamej.drawing.Camera;
+import dev.rsninja.gamej.drawing.Draw;
+import dev.rsninja.gamej.physics.Physics;
+import dev.rsninja.gamej.physics.Point;
 
 
 /** listens to keyboard and mouse input */

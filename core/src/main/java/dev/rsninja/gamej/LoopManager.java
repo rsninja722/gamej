@@ -1,8 +1,8 @@
-package game;
+package dev.rsninja.gamej;
 
 import java.awt.Color;
 
-import game.drawing.Draw;
+import dev.rsninja.gamej.drawing.Draw;
 
 // manages timing and calls update, draw, and absouluteDraw
 public class LoopManager {

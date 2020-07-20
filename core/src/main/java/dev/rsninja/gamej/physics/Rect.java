@@ -1,4 +1,4 @@
-package game.physics;
+package dev.rsninja.gamej.physics;
 
 /** rectangle object used for physics and drawing */
 public class Rect {

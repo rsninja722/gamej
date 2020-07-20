@@ -1,4 +1,4 @@
-package game.physics;
+package dev.rsninja.gamej.physics;
 
 /** collision methods */
 public class Physics {

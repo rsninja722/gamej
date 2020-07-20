@@ -1,7 +1,7 @@
-package game.drawing;
+package dev.rsninja.gamej.drawing;
 
-import game.GameJava;
-import game.physics.Point;
+import dev.rsninja.gamej.GameJava;
+import dev.rsninja.gamej.physics.Point;
 
 /** object to offset drawing by translations, rotation, and scaling */
 public class Camera {

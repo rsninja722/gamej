@@ -1,8 +1,8 @@
-package game;
+package dev.rsninja.gamej;
 
-import game.audio.Sounds;
-import game.drawing.Draw;
-import game.drawing.Sprites;
+import dev.rsninja.gamej.audio.Sounds;
+import dev.rsninja.gamej.drawing.Draw;
+import dev.rsninja.gamej.drawing.Sprites;
 
 import java.awt.Color;
 import java.nio.file.Paths;

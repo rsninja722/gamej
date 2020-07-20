@@ -1,13 +1,13 @@
-package game.audio;
+package dev.rsninja.gamej.audio;
 
 import java.io.File;
 import java.util.HashMap;
 
 import javax.sound.sampled.Clip;
 
-import game.GameJava;
-import game.audio.Sound;
-import game.drawing.Sprite;
+import dev.rsninja.gamej.GameJava;
+import dev.rsninja.gamej.audio.Sound;
+import dev.rsninja.gamej.drawing.Sprite;
 
 public class Sounds {
 	public static HashMap<String, Sound> soundList = new HashMap<String, Sound>();

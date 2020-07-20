@@ -1,6 +1,6 @@
-package game;
+package dev.rsninja.gamej;
 
-import game.physics.Point;
+import dev.rsninja.gamej.physics.Point;
 
 /** useful stuff I have found/figured out as I make games */
 public class Utils {
