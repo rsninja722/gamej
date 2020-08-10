@@ -44,7 +44,7 @@ public class LoopManager {
                 double currentTime = System.nanoTime();
                 if (currentTime - lastUpdateTime >= nanosPerUpdate) {
                     // full screen toggle
-                    if (Input.keyClick(KeyCodes.F11) && Draw.allowFullScreen) {
+                    if (Input.keyClick(KeyCodes.F11) && GameJava.allowFullScreen) {
                         Draw.toggleFullSreen();
                     }
                     // debug info toggle
@@ -81,6 +81,11 @@ public class LoopManager {
     public static void startLoops(GameJava mainGameObject) {
         System.out.println("[LoopManager] starting loops with: " + mainGameObject.toString());
         mainGameClass = mainGameObject;
+
+        // if resizable has been turned off
+        if(GameJava.resizable == false) {
+            Draw.frame.setResizable(false);
+        }
 
         nanosPerFrame = nanosecondsPerSecond / GameJava.framePerSecond;
         nanosPerUpdate = nanosecondsPerSecond / GameJava.updatesPerSecond;

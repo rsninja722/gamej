@@ -10,11 +10,8 @@ import java.nio.file.Paths;
 /*
  * TODO:
  * line collition
- * resize prevension and fullscreen option
- * change loopmanager init
  * text wrapping
  * scrolling
- * add sounds
  * set name and icon
  * make fullscreen not lag
  */
@@ -25,6 +22,9 @@ public class GameJava {
     // game width/height
     public static int gw;
     public static int gh;
+
+    public static boolean resizable = true;
+    public static boolean allowFullScreen = true;
 
     // fps to run updates and drawing at
     public static int framePerSecond = 60;

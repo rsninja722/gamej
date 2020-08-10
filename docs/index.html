@@ -119,10 +119,10 @@ public class Template extends GameJava {
                         <p>If you need to run code once before the game, call it in the construter after super, and before LoopManager.startLoops</p>
                         <p>There are a few things built in that can be ran here</p>
                         <p><span class="yellow">String</span> <span class="white">frameTitle</span> - what you want the frame title to be</p>
-                        <p><span class="yellow">Boolean</span> <span class="white">Draw.allowFullScreen</span> - should full screen be enabled. Use full screen by pressing f11. Fullscreen is very buggy and it is recommended that it be disabled</p>
+                        <p><span class="yellow">Boolean</span> <span class="white">allowFullScreen</span> - should full screen be enabled. Use full screen by pressing f11. Fullscreen is very buggy and it is recommended that it be disabled</p>
+                        <p><span class="yellow">Boolean</span> <span class="white">resizable</span> - should the user be allowed to resize the window</p>
                         <p><span class="yellow">Boolean</span> <span class="white">Draw.antialiasing</span> - if antialiasing should be used</p>
                         <p><span class="yellow">Float</span> <span class="white">Draw.alphaBetweenFrames</span> - used for motion blur, 0.01f is a lot, 1.0f is none</p>
-                        <p><span class="white">Draw.frame.setResizable();</span> - set if the window should be resizable by the user</p>
                     </div>
                 </div>
             <a name="structure"></a>
@@ -150,6 +150,8 @@ public class Template extends GameJava {
                 </div>
                 <h3>methods</h3>
                 <div class="section">
+                    <p><span class="white">Draw.setWindowSize(w, h)</span> - sets the size of the window</p>
+
                     <p><span class="white">Draw.setColor(Color)</span> - sets the color to draw with</p>
                     <p><span class="white">Draw.setLineWidth(width)</span> - sets the lines width</p>
                     <p><span class="white">Draw.setFontSize(size)</span> - sets the font size to the number entered x 8 pixels</p><br>

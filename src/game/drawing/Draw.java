@@ -38,8 +38,6 @@ public class Draw extends JPanel {
     private static Font drawFont; // font used for all text drawing
 
     public static boolean fullScreen = false; // if in fullscreen mode
-    
-    public static boolean allowFullScreen = true; 
 
     public static int windowedWidth; // width to return to when exiting full screen
     public static int windowedHeight; // width to return to when exiting full screen
@@ -53,6 +51,9 @@ public class Draw extends JPanel {
     private static Graphics2D buffer2Graphics; // buffer used for rotation
 
     public static Graphics2D canvas; // graphics2D of the current buffer being used to draw
+
+    private static int desiredWidth = 0;
+    private static int desiredHeight = 0;
 
     // drawing offset
     private static int difx = 0;
@@ -301,6 +302,16 @@ public class Draw extends JPanel {
         drawCalls++;}
     }
 
+    /**
+     * Sets the size of the window
+     * @param w
+     * @param h
+     */
+    public static void setWindowSize(int w, int h) {
+        desiredWidth = w;
+        desiredHeight = h;
+    }
+
     // __________________________________________ methods that should only be used by gamej __________________________________________
 
     // creates window and sets up buffers
@@ -370,6 +381,11 @@ public class Draw extends JPanel {
 
         frame.setLocationRelativeTo(null);
 
+        // if resizable has been turned off
+        if(GameJava.resizable == false) {
+            frame.setResizable(false);
+        }
+
         // set or unset frame to be the fullscreen window
         GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
         if (fullScreen) {
@@ -397,8 +413,17 @@ public class Draw extends JPanel {
         }
 
         // set size of panel to fit frame
+        if(desiredWidth != 0 || desiredHeight != 0) {
+            windowedWidth = desiredWidth < 10 ? 640 : desiredWidth;
+            windowedHeight = desiredHeight < 10 ? 480 : desiredHeight;
+            frame.setSize(windowedWidth, windowedHeight);
+            desiredWidth = 0;
+            desiredHeight = 0;
+        } 
         int w = frame.getWidth() - frame.getInsets().right - frame.getInsets().left;
         int h = frame.getHeight() - frame.getInsets().top - frame.getInsets().bottom;
+        w = w < 10 ? windowedWidth : w;
+        h = h < 10 ? windowedHeight : h;
         panel.setSize(w, h);
         GameJava.gw = panel.getWidth();
         GameJava.gh = panel.getHeight();
@@ -503,13 +528,15 @@ public class Draw extends JPanel {
     // draws the buffer to the jpanel
     public static void renderToScreen() {
         Graphics2D g2 = (Graphics2D) panel.getGraphics();
-        if(lastAlpha != 1.0f || alphaBetweenFrames != 1.0f) {
-	    	int rule = AlphaComposite.SRC_OVER;
-	        Composite comp = AlphaComposite.getInstance(rule , (float) alphaBetweenFrames );
-	        g2.setComposite(comp );
-	        lastAlpha = alphaBetweenFrames;
+        if(g2 != null) {
+            if(lastAlpha != 1.0f || alphaBetweenFrames != 1.0f) {
+                int rule = AlphaComposite.SRC_OVER;
+                Composite comp = AlphaComposite.getInstance(rule , (float) alphaBetweenFrames );
+                g2.setComposite(comp);
+                lastAlpha = alphaBetweenFrames;
+            }
+            g2.drawImage(buffer, 0, 0, null);
+            g2.dispose();
         }
-        g2.drawImage(buffer, 0, 0, null);
-        g2.dispose();
     }
 }

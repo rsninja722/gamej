@@ -19,11 +19,11 @@ public class UsageExample extends GameJava {
 
         frameTitle = "examples of stuff that can be done";
 
-        Draw.allowFullScreen = true;
+        allowFullScreen = true;
+        resizable = false;
         Draw.alphaBetweenFrames = 0.2f;
         Draw.antialiasing = true;
-        Draw.frame.setResizable(false);
-
+        
         Sounds.ajustGain("putAudioHere", 0.95f);
 
         LoopManager.startLoops(this);
@@ -57,6 +57,10 @@ public class UsageExample extends GameJava {
 
         if(Input.mouseClick(0)) {
             Sounds.play("putAudioHere");
+        }
+
+        if(Input.keyClick(KeyCodes.Q)) {
+            Draw.setWindowSize(300, 400);
         }
 
         Utils.putInDebugMenu("label", "s is pressed: " + (Input.keyDown(KeyCodes.S) ? "true" : "false"));
