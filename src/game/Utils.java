@@ -10,7 +10,15 @@ public class Utils {
     public static boolean debugMode = false;
 
     /**
+     * Supported operating systems
+     */
+    public enum OperatingSystem {
+        WINDOWS, LINUX, OSX, SOLARIS
+    }
+
+    /**
      * the angle something at point needs to be at to be facing target point
+     * 
      * @param point       {@link game.physics.Point#Point physics point}
      * @param targetPoint {@link game.physics.Point#Point physics point}
      * @return angle in radians
@@ -24,6 +32,7 @@ public class Utils {
 
     /**
      * the angle something at x1,y1 needs to be at to be facing x2,y2
+     * 
      * @param x1 x of object to determine angle of
      * @param y1 y of object to determine angle of
      * @param x2 x of object to face
@@ -36,36 +45,43 @@ public class Utils {
         double h = Math.atan2(opposite, adjacent);
         return h;
     }
-    
+
     /**
      * changes an angle to another angle a certain amount
+     * 
      * @param currentAngle
      * @param targetAngle
      * @param turnSpeed
      * @return the new currentAngle
      */
     public static double turnTo(double currentAngle, double targetAngle, double turnSpeed) {
-    	double pi = Math.PI;
-    	double tau = pi*2;
-    	if (targetAngle < 0) { targetAngle = tau + targetAngle; }
+        double pi = Math.PI;
+        double tau = pi * 2;
+        if (targetAngle < 0) {
+            targetAngle = tau + targetAngle;
+        }
         if ((currentAngle % tau) > targetAngle) {
             if ((currentAngle % tau) - targetAngle > pi) {
-            	currentAngle += turnSpeed;
+                currentAngle += turnSpeed;
             } else {
-            	currentAngle -= turnSpeed;
+                currentAngle -= turnSpeed;
             }
         } else {
             if (targetAngle - (currentAngle % tau) > pi) {
-            	currentAngle -= turnSpeed;
+                currentAngle -= turnSpeed;
             } else {
-            	currentAngle += turnSpeed;
+                currentAngle += turnSpeed;
             }
         }
         if (Math.abs(currentAngle - targetAngle) < turnSpeed * 1.1) {
-        	currentAngle = targetAngle;
+            currentAngle = targetAngle;
         }
-        if (currentAngle > tau) { currentAngle = currentAngle - tau; }
-        if (currentAngle < 0) { currentAngle = tau + currentAngle; }
+        if (currentAngle > tau) {
+            currentAngle = currentAngle - tau;
+        }
+        if (currentAngle < 0) {
+            currentAngle = tau + currentAngle;
+        }
         return currentAngle;
     }
 
@@ -80,6 +96,7 @@ public class Utils {
 
     /**
      * linear interpilation, used to slowly move a value towards another value
+     * 
      * @param start  current value
      * @param end    target value
      * @param amount value from 0 to 1, higher values moves faster
@@ -90,7 +107,9 @@ public class Utils {
     }
 
     /**
-     * moves a value towards 0 by frictionAmount, once close to 0 the value will snap to 0
+     * moves a value towards 0 by frictionAmount, once close to 0 the value will
+     * snap to 0
+     * 
      * @param value          current value
      * @param frictionAmount value reduction
      * @return new value
@@ -110,6 +129,7 @@ public class Utils {
 
     /**
      * limits a number between a max and min
+     * 
      * @param value number to limit
      * @param max   maximum value
      * @param min   minimum value
@@ -121,6 +141,7 @@ public class Utils {
 
     /**
      * takes a range of numbers and maps it to another range of numbers
+     * 
      * @param value        current value
      * @param valueLow     current value minimum
      * @param valueHigh    current value maximum
@@ -135,19 +156,47 @@ public class Utils {
 
     /**
      * puts a number into the debug screen
+     * 
      * @param lable label of the value
      * @param value value to show
      */
     public static void putInDebugMenu(String lable, double value) {
-        debugString.append("[" + lable + "] " + Math.round(value*1000.0)/1000.0 + "\n");
+        debugString.append("[" + lable + "] " + Math.round(value * 1000.0) / 1000.0 + "\n");
     }
 
     /**
      * puts a string into the debug screen
+     * 
      * @param lable label of the sting
      * @param text  string to show
      */
     public static void putInDebugMenu(String lable, String text) {
         debugString.append("[" + lable + "] " + text + "\n");
+    }
+
+    /**
+     * Get the host operating system type
+     * 
+     * @return Operating system
+     */
+    public static OperatingSystem getOperatingSystem() {
+
+        // Read OS property
+        String osStr = System.getProperty("os.name").toLowerCase();
+
+        // OS value (default to linux because most systems support linux paths)
+        OperatingSystem os = OperatingSystem.LINUX;
+
+        // Find actual OS type
+        if (osStr.contains("win")) {
+            os = OperatingSystem.WINDOWS;
+        } else if (osStr.contains("nix") || osStr.contains("nux") || osStr.contains("aix")) {
+            os = OperatingSystem.LINUX;
+        } else if (osStr.contains("mac")) {
+            os = OperatingSystem.OSX;
+        } else if (osStr.contains("sunos")) {
+            os = OperatingSystem.SOLARIS;
+        }
+        return os;
     }
 }
