@@ -49,6 +49,10 @@ public class Draw extends JPanel {
     private static Graphics2D bufferGraphics; // final buffer
     private static Graphics2D buffer1Graphics; // buffer used for scaling
     private static Graphics2D buffer2Graphics; // buffer used for rotation
+    
+    private static int lastScreenIndex = -1;
+    private static int lastW = 0;
+    private static int lastH = 0;    
 
     public static Graphics2D canvas; // graphics2D of the current buffer being used to draw
 
@@ -74,8 +78,8 @@ public class Draw extends JPanel {
     
     public static boolean antialiasing = false;
 
-    public static final GraphicsEnvironment graphicsEnviro = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    public static final GraphicsConfiguration graphicsConfig = graphicsEnviro.getDefaultScreenDevice().getDefaultConfiguration();
+    public static GraphicsEnvironment graphicsEnviro = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    public static GraphicsConfiguration graphicsConfig = graphicsEnviro.getDefaultScreenDevice().getDefaultConfiguration();
     
     public static int drawCalls = 0;
 
@@ -388,8 +392,14 @@ public class Draw extends JPanel {
 
         // set or unset frame to be the fullscreen window
         GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+        System.out.println(device);
         if (fullScreen) {
             device.setFullScreenWindow(Draw.frame);
+            graphicsEnviro = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            graphicsConfig = graphicsEnviro.getDefaultScreenDevice().getDefaultConfiguration();
+	        
+	        buffer = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
+	        bufferGraphics = buffer.createGraphics();
         } else {
             device.setFullScreenWindow(null);
         }
@@ -437,22 +447,53 @@ public class Draw extends JPanel {
         // drawing in corners
         double tempSize = maxCvsSize / Camera.zoom;
         double tempSizeAndPadding = tempSize + (tempSize / 2);
+        
+        // account for window being moved to different screen https://stackoverflow.com/questions/2234476/how-to-detect-the-current-display-with-java
+        GraphicsDevice currentScreen = frame.getGraphicsConfiguration().getDevice();
+        GraphicsDevice[] allScreens = graphicsEnviro.getScreenDevices();
+        int screenIndex = -1;
+        for (int i = 0; i < allScreens.length; i++) {
+            if (allScreens[i].equals(currentScreen))
+            {
+                screenIndex = i;
+                break;
+            }
+        }
+        if(lastScreenIndex != screenIndex) {
+        	lastScreenIndex = screenIndex; 
+        	
+	        graphicsConfig = allScreens[screenIndex].getDefaultConfiguration();
+	        
+	        buffer = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
+	        buffer1 = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
+	        buffer2 = graphicsConfig.createCompatibleVolatileImage((int) tempSizeAndPadding, (int) tempSizeAndPadding);
+	        bufferGraphics = buffer.createGraphics();
+	        buffer1Graphics = buffer1.createGraphics();
+	        buffer2Graphics = buffer2.createGraphics();
+        }
+        
 
         // resize buffers
+        boolean sizeChange = GameJava.gw != lastW || GameJava.gh != lastH;
+        lastW = GameJava.gw;
+        lastH = GameJava.gh;
         if (drawingMode == 2) {
-            buffer2.flush();
-            buffer2 = graphicsConfig.createCompatibleVolatileImage((int) tempSizeAndPadding, (int) tempSizeAndPadding);
-            buffer2Graphics = buffer2.createGraphics();
+        	if(buffer2Graphics == null || sizeChange) {
+	            buffer2 = graphicsConfig.createCompatibleVolatileImage((int) tempSizeAndPadding, (int) tempSizeAndPadding);
+	            buffer2Graphics = buffer2.createGraphics();
+        	}
         }
         if (drawingMode > 0) {
-            buffer1.flush();
-            buffer1 = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
-            buffer1Graphics = buffer1.createGraphics();
+        	if(buffer1Graphics == null || sizeChange) {
+	            buffer1 = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
+	            buffer1Graphics = buffer1.createGraphics();
+        	}
         }
-        buffer.flush();
-        buffer = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
-        bufferGraphics = buffer.createGraphics();
-
+        if(bufferGraphics == null || sizeChange) {
+        	buffer = graphicsConfig.createCompatibleVolatileImage(GameJava.gw, GameJava.gh);
+	        bufferGraphics = buffer.createGraphics();
+        }
+        
         // set translations for drawing
         if (drawingMode == 2) {
             // account for buffer2 being a square
@@ -493,6 +534,10 @@ public class Draw extends JPanel {
 
         // set font
         canvas.setFont(drawFont);
+        
+        bufferGraphics.clearRect(0, 0, GameJava.gw, GameJava.gh);
+        buffer1Graphics.clearRect(0, 0, GameJava.gw, GameJava.gh);
+        buffer2Graphics.clearRect(0, 0, (int) tempSizeAndPadding, (int) tempSizeAndPadding);
     }
 
     // draws buffers onto main buffer to account for camera zooming and rotating
